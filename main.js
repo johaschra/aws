@@ -57,9 +57,21 @@ async function loadStations(url) {
 
         },
         onEachFeature: function (feature, layer) {
-            console.log(feature);
+            //console.log(feature);
+            let pointInTime = new Date(feature.properties.date); //new date macht aus dem String ein Date-Objekt
+            console.log(pointInTime);
             layer.bindPopup(`
-        <h4>${feature.properties.name} (${feature.geometry.coordinates[2]}m)</h4>`);
+                <h4>${feature.properties.name} (${feature.geometry.coordinates[2]}m)</h4>
+                    <ul>
+                        <li>Temperatur: ${feature.properties.LT !== undefined ? feature.properties.LT : "-"} °C</li> <!--- asdjfök--->
+                        <li>Relative Luftfeuchte : ${feature.properties.RH || "-"} %</li>
+                        <li>Windgeschwindigkeit: ${feature.properties.WG || "-"} m/s</li>
+                        <li>Windrichtung: ${feature.properties.WR || "-"}°</li>
+                        <li>Schneehöhe: ${feature.properties.HS || "-"} cm</li>
+                    <ul>
+                <span>${pointInTime.toLocaleString()}</span>
+
+        `); // || "-" wird verwendet wenn 0, undifined oder false.
             //Betreiber: <a href="${feature.properties.operatorLink
             //}" target= "betreiber">${feature.properties.operator}</a>`);
         }
