@@ -60,8 +60,8 @@ async function loadStations(url) {
             console.log(feature);
             layer.bindPopup(`
         <h4>${feature.properties.name} (${feature.geometry.coordinates[2]}m)</h4>`);
-        //Betreiber: <a href="${feature.properties.operatorLink
-                //}" target= "betreiber">${feature.properties.operator}</a>`);
+            //Betreiber: <a href="${feature.properties.operatorLink
+            //}" target= "betreiber">${feature.properties.operator}</a>`);
         }
 
 
