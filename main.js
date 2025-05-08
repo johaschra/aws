@@ -12,8 +12,8 @@ let map = L.map("map").setView([ibk.lat, ibk.lng], ibk.zoom);
 
 // thematische Layer
 let overlays = {
-    stations: L.featureGroup().addTo(map),
-    temperature: L.featureGroup(),
+    stations: L.featureGroup(),
+    temperature: L.featureGroup().addTo(map),
 }
 
 // Layer control
@@ -70,7 +70,7 @@ async function loadStations(url) {
                         <li>Relative Luftfeuchte : ${feature.properties.RH || "-"} %</li>
                         <li>Windgeschwindigkeit: ${feature.properties.WG || "-"} m/s</li>
                         <li>Windrichtung: ${feature.properties.WR || "-"}°</li>
-                        <li>Schneehöhe: ${feature.properties.SH !== undefined ? feature.properties.SH : "-"}} cm</li>
+                        <li>Schneehöhe: ${feature.properties.SH || "-"} cm</li>
                     <ul>
                 <span>${pointInTime.toLocaleString()}</span>
 
@@ -90,10 +90,16 @@ loadStations("https://static.avalanche.report/weather_stations/stations.geojson"
 
 function showTemperature(jsondata) {
     L.geoJSON(jsondata, {
+        filter: function(feature) {
+            if (feature.properties.LT >-50 && feature.properties.LT <50) {        
+                return true;
+            }
+        },
         pointToLayer: function (feature, latlng) {
+            let color = getColor(feature.properties.LT, COLORS.temperature);
             return L.marker(latlng, {
                 icon: L.divIcon({
-                    html: `<span>${feature.properties.LT} </span>`,
+                    html: `<span style ="background-color:${color}">${feature.properties.LT || "-"} </span>`,
                     className: "aws-div-icon",
 
                 }),
@@ -105,4 +111,15 @@ function showTemperature(jsondata) {
     }).addTo(overlays.temperature);
 }
 
+
+//let testColor = getColor(-)
+
+function getColor(value, ramp) {
+    for (let rule of ramp) {
+        //console.log("rule", rule);
+        if (value >= rule.min && value < rule.max) {
+            return rule.color; // return is an automatic break
+        }
+    }
+}
 
