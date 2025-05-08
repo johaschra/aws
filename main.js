@@ -38,8 +38,8 @@ L.control.scale({
 
 // Wetterstationen
 async function loadStations(url) {
-    let response = await fetch(url);
-    let jsondata = await response.json();
+    let response = await fetch(url); // await -> warte erst bis die Daten da sind
+    let jsondata = await response.json(); //dann die Daten in json umwandeln
     console.log(jsondata);
 
     // Wetterstationen mit Icons und Popups
@@ -62,7 +62,7 @@ async function loadStations(url) {
         onEachFeature: function (feature, layer) {
             //console.log(feature);
             let pointInTime = new Date(feature.properties.date); //new date macht aus dem String ein Date-Objekt
-            console.log(pointInTime);
+            //console.log(pointInTime);
             layer.bindPopup(`
                 <h4>${feature.properties.name} (${feature.geometry.coordinates[2]}m)</h4>
                     <ul>
@@ -70,7 +70,7 @@ async function loadStations(url) {
                         <li>Relative Luftfeuchte : ${feature.properties.RH || "-"} %</li>
                         <li>Windgeschwindigkeit: ${feature.properties.WG || "-"} m/s</li>
                         <li>Windrichtung: ${feature.properties.WR || "-"}°</li>
-                        <li>Schneehöhe: ${feature.properties.HS || "-"} cm</li>
+                        <li>Schneehöhe: ${feature.properties.SH !== undefined ? feature.properties.SH : "-"}} cm</li>
                     <ul>
                 <span>${pointInTime.toLocaleString()}</span>
 
@@ -81,5 +81,28 @@ async function loadStations(url) {
 
 
     }).addTo(overlays.stations);
+    showTemperature(jsondata);
+
+
 }
+
 loadStations("https://static.avalanche.report/weather_stations/stations.geojson");
+
+function showTemperature(jsondata) {
+    L.geoJSON(jsondata, {
+        pointToLayer: function (feature, latlng) {
+            return L.marker(latlng, {
+                icon: L.divIcon({
+                    html: `<span>${feature.properties.LT} </span>`,
+                    className: "aws-div-icon",
+
+                }),
+            });
+
+
+        },
+
+    }).addTo(overlays.temperature);
+}
+
+
