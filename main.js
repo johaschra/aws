@@ -14,6 +14,8 @@ let map = L.map("map").setView([ibk.lat, ibk.lng], ibk.zoom);
 let overlays = {
     stations: L.featureGroup(),
     temperature: L.featureGroup().addTo(map),
+    wind: L.featureGroup(),
+    snowheight: L.featureGroup(),
 }
 
 // Layer control
@@ -29,6 +31,8 @@ L.control.layers({
 }, {
     "Wetterstationen": overlays.stations,
     "Temperatur": overlays.temperature,
+    "Wind": overlays.wind,
+    "Schneehöhe": overlays.snowheight
 }).addTo(map);
 
 // Maßstab
@@ -40,7 +44,7 @@ L.control.scale({
 async function loadStations(url) {
     let response = await fetch(url); // await -> warte erst bis die Daten da sind
     let jsondata = await response.json(); //dann die Daten in json umwandeln
-    console.log(jsondata);
+    //console.log(jsondata);
 
     // Wetterstationen mit Icons und Popups
     L.geoJSON(jsondata, {
@@ -82,6 +86,8 @@ async function loadStations(url) {
 
     }).addTo(overlays.stations);
     showTemperature(jsondata);
+    showWind(jsondata);
+    showSH(jsondata);
 
 
 }
@@ -109,6 +115,53 @@ function showTemperature(jsondata) {
         },
 
     }).addTo(overlays.temperature);
+}
+
+function showWind(jsondata) {
+    L.geoJSON(jsondata, {
+        filter: function(feature) {
+            if (feature.properties.WG >0 && feature.properties.WG <500) {        
+                return true;
+            }
+        },
+        pointToLayer: function (feature, latlng) {
+            let color = getColor(feature.properties.WG, COLORS.wind);
+            return L.marker(latlng, {
+                icon: L.divIcon({
+                    html: `<span style ="background-color:${color}">${feature.properties.WG.toFixed(1) || "-"} </span>`,
+                    className: "aws-div-icon",
+
+                }),
+            });
+
+
+        },
+
+    }).addTo(overlays.wind);
+}
+
+function showSH(jsondata) {
+    L.geoJSON(jsondata, {
+        filter: function(feature) {
+            if (feature.properties.HS >0 && feature.properties.HS <1500) {        
+                return true;
+            }
+        },
+        pointToLayer: function (feature, latlng) {
+            //console.log(feature.properties.HS)
+            let color = getColor(feature.properties.HS, COLORS.snowheight);
+            return L.marker(latlng, {
+                icon: L.divIcon({
+                    html: `<span style ="background-color:${color}">${feature.properties.HS.toFixed(1) || "-"} </span>`,
+                    className: "aws-div-icon",
+
+                }),
+            });
+
+
+        },
+
+    }).addTo(overlays.snowheight);
 }
 
 
