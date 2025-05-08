@@ -42,29 +42,29 @@ async function loadStations(url) {
     // Wetterstationen mit Icons und Popups
     L.geoJSON(jsondata, {
         attribution: 'Datenquelle: <a href= ""> AWS </a>',
-    pointToLayer: function (feature, latlng) {
-        console.log(feature.properties);
-        let iconName = 'wifi.png';
-        
-        return L.marker(latlng, {
-            icon: L.icon({
-                iconUrl: `icons/${iconName}`,
-                iconAnchor: [16, 37],
-                popupAnchor: [0, -37],
-            })
-        });
+        pointToLayer: function (feature, latlng) {
+            //console.log(feature.properties);
+            let iconName = 'wifi.png';
+
+            return L.marker(latlng, {
+                icon: L.icon({
+                    iconUrl: `icons/${iconName}`,
+                    iconAnchor: [16, 37],
+                    popupAnchor: [0, -37],
+                })
+            });
 
 
-},
-onEachFeature: function (feature, layer) {
-    console.log(feature.properties);
-    layer.bindPopup(`
-        <h4>${feature.properties.name} (seehöhe)</h4>`);
+        },
+        onEachFeature: function (feature, layer) {
+            console.log(feature);
+            layer.bindPopup(`
+        <h4>${feature.properties.name} (${feature.geometry.coordinates[2]}m)</h4>
+        Betreiber: <a href="${feature.properties.operatorLink
+                }" target= "betreiber">${feature.properties.operator}</a>`);
+        }
+
+
+    }).addTo(overlays.stations);
 }
-
-
-}).addTo(overlays.stations); }
 loadStations("https://static.avalanche.report/weather_stations/stations.geojson");
-
-
-// <a href="${feature.properties.WEITERE_INF}" target= "wien">Website</a>
