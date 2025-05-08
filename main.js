@@ -105,7 +105,7 @@ function showTemperature(jsondata) {
             let color = getColor(feature.properties.LT, COLORS.temperature);
             return L.marker(latlng, {
                 icon: L.divIcon({
-                    html: `<span style ="background-color:${color}">${feature.properties.LT.toFixed(1) || "-"} </span>`,
+                    html: `<span style ="background-color:${color}">${feature.properties.LT.toFixed(1) || "-"}°C </span>`,
                     className: "aws-div-icon",
 
                 }),
@@ -128,7 +128,7 @@ function showWind(jsondata) {
             let color = getColor(feature.properties.WG, COLORS.wind);
             return L.marker(latlng, {
                 icon: L.divIcon({
-                    html: `<span style ="background-color:${color}">${feature.properties.WG.toFixed(1) || "-"} </span>`,
+                    html: `<span style ="background-color:${color}">${feature.properties.WG.toFixed(1) || "-"}km/h</span>`,
                     className: "aws-div-icon",
 
                 }),
@@ -140,6 +140,7 @@ function showWind(jsondata) {
     }).addTo(overlays.wind);
 }
 
+
 function showSH(jsondata) {
     L.geoJSON(jsondata, {
         filter: function(feature) {
@@ -148,11 +149,11 @@ function showSH(jsondata) {
             }
         },
         pointToLayer: function (feature, latlng) {
-            //console.log(feature.properties.HS)
+            console.log(feature.properties)
             let color = getColor(feature.properties.HS, COLORS.snowheight);
             return L.marker(latlng, {
                 icon: L.divIcon({
-                    html: `<span style ="background-color:${color}">${feature.properties.HS.toFixed(1) || "-"} </span>`,
+                    html: `<span style ="background-color:${color}">${feature.properties.HS.toFixed(1) || "-"}cm</span>`,
                     className: "aws-div-icon",
 
                 }),
