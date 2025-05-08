@@ -55,5 +55,16 @@ async function loadStations(url) {
         });
 
 
-}}).addTo(overlays.stations); }
+},
+onEachFeature: function (feature, layer) {
+    console.log(feature.properties);
+    layer.bindPopup(`
+        <h4>${feature.properties.name} (seehöhe)</h4>`);
+}
+
+
+}).addTo(overlays.stations); }
 loadStations("https://static.avalanche.report/weather_stations/stations.geojson");
+
+
+// <a href="${feature.properties.WEITERE_INF}" target= "wien">Website</a>
