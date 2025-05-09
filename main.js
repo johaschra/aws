@@ -70,11 +70,11 @@ async function loadStations(url) {
             layer.bindPopup(`
                 <h4>${feature.properties.name} (${feature.geometry.coordinates[2]}m)</h4>
                     <ul>
-                        <li>Temperatur: ${feature.properties.LT !== undefined ? feature.properties.LT : "-"} °C</li> <!--- asdjfök--->
+                        <li>Temperatur: ${feature.properties.LT !== undefined ? feature.properties.LT.toFixed(1) : "-"} °C</li> <!--- this is a comment--->
                         <li>Relative Luftfeuchte : ${feature.properties.RH || "-"} %</li>
                         <li>Windgeschwindigkeit: ${feature.properties.WG || "-"} m/s</li>
                         <li>Windrichtung: ${feature.properties.WR || "-"}°</li>
-                        <li>Schneehöhe: ${feature.properties.SH || "-"} cm</li>
+                        <li>Schneehöhe: ${feature.properties.HS !== undefined ? feature.properties.HS.toFixed(1) : "-"} cm</li>
                     <ul>
                 <span>${pointInTime.toLocaleString()}</span>
 
@@ -96,8 +96,8 @@ loadStations("https://static.avalanche.report/weather_stations/stations.geojson"
 
 function showTemperature(jsondata) {
     L.geoJSON(jsondata, {
-        filter: function(feature) {
-            if (feature.properties.LT >-50 && feature.properties.LT <50) {        
+        filter: function (feature) {
+            if (feature.properties.LT > -50 && feature.properties.LT < 50) {
                 return true;
             }
         },
@@ -119,8 +119,8 @@ function showTemperature(jsondata) {
 
 function showWind(jsondata) {
     L.geoJSON(jsondata, {
-        filter: function(feature) {
-            if (feature.properties.WG >0 && feature.properties.WG <500) {        
+        filter: function (feature) {
+            if (feature.properties.WG > 0 && feature.properties.WG < 500) {
                 return true;
             }
         },
@@ -143,8 +143,8 @@ function showWind(jsondata) {
 
 function showSH(jsondata) {
     L.geoJSON(jsondata, {
-        filter: function(feature) {
-            if (feature.properties.HS >0 && feature.properties.HS <1500) {        
+        filter: function (feature) {
+            if (feature.properties.HS > 0 && feature.properties.HS < 1500) {
                 return true;
             }
         },
