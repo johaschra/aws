@@ -42,6 +42,22 @@ L.control.scale({
     imperial: false,
 }).addTo(map);
 
+
+
+// Rainviewer
+
+// Change default options
+L.control.rainviewer({ 
+    position: 'bottomleft',
+    nextButtonText: '>',
+    playStopButtonText: 'Play/Stop',
+    prevButtonText: '<',
+    positionSliderLabelText: "Hour:",
+    opacitySliderLabelText: "Opacity:",
+    animationInterval: 500,
+    opacity: 0.5
+}).addTo(map);
+
 // Wetterstationen
 async function loadStations(url) {
     let response = await fetch(url); // await -> warte erst bis die Daten da sind
@@ -178,9 +194,12 @@ function showDir(jsondata) {
         },
         pointToLayer: function (feature, latlng) {
             let color = getColor(feature.properties.WG, COLORS.wind);
+            // round direction values to degrees because wind direction measurements are quite uncertain
+            let dir = feature.properties.WR !== undefined ? feature.properties.WR.toFixed(0) : "-";
+            console.log(feature.properties.WR);
             return L.marker(latlng, {
                 icon: L.divIcon({
-                    html: `<span style ="background-color:${color}">${feature.properties.WG.toFixed(1) || "-"}km/h</span>`,
+                    html: `<span style ="background-color:${color}">${dir}°</span>`,
                     className: "aws-div-icon",
 
                 }),
