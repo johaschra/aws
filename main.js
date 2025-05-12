@@ -34,7 +34,7 @@ L.control.layers({
     "Temperatur": overlays.temperature,
     "Wind": overlays.wind,
     "Schneehöhen": overlays.snow,
-    "Windrichtung": overlays.direction,
+    "Windgeschwindigkeit & Richtung": overlays.direction,
 }).addTo(map);
 
 // Maßstab
