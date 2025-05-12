@@ -168,7 +168,7 @@ function showSH(jsondata) {
             }
         },
         pointToLayer: function (feature, latlng) {
-            console.log(feature.properties)
+            //console.log(feature.properties)
             let color = getColor(feature.properties.HS, COLORS.snowheight);
             return L.marker(latlng, {
                 icon: L.divIcon({
@@ -196,7 +196,7 @@ function showDir(jsondata) {
             let color = getColor(feature.properties.WG, COLORS.wind);
             // round direction values to degrees because wind direction measurements are quite uncertain
             let dir = feature.properties.WR !== undefined ? feature.properties.WR.toFixed(0) : "-";
-            console.log(feature.properties.WR);
+            //console.log(feature.properties.WR);
             return L.marker(latlng, {
                 icon: L.divIcon({
                     html: `<span style ="background-color:${color}">${dir}°</span>`,
