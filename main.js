@@ -197,11 +197,15 @@ function showDir(jsondata) {
         pointToLayer: function (feature, latlng) {
             let color = getColor(feature.properties.WG, COLORS.wind);
             // round direction values to degrees because wind direction measurements are quite uncertain
+            //let dir = feature.properties.WR !== undefined ? feature.properties.WR.toFixed(0) : "-";
             let dir = feature.properties.WR !== undefined ? feature.properties.WR.toFixed(0) : "-";
+            
             //console.log(feature.properties.WR);
             return L.marker(latlng, {
                 icon: L.divIcon({
-                    html: `<span style ="background-color:${color}">${dir}°</span>`,
+                    html: `<span style = "transform:rotate(${feature.properties.WR}deg);background-color:${color}";>
+                                         <i class = "fa-solid fa-circle-arrow-down"></i>
+                            </span>`,
                     className: "aws-div-icon",
 
                 }),
