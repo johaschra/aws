@@ -206,7 +206,7 @@ function showDir(jsondata) {
                     html: `<span style = "transform:rotate(${feature.properties.WR}deg);background-color:${color}";>
                                          <i class = "fa-solid fa-circle-arrow-down"></i>
                             </span>`,
-                    className: "aws-div-icon",
+                    className: "aws-div-icon-wind",
 
                 }),
             });
