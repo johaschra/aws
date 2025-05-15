@@ -188,12 +188,12 @@ function showSH(jsondata) {
 function showDir(jsondata) {
     L.geoJSON(jsondata, {
         filter: function (feature) {
-            if (feature.properties.WG > 0 && feature.properties.WG < 500) {
+            if (feature.properties.WR > 0 && feature.properties.WG < 361) {
                 return true;
             }
         },
         pointToLayer: function (feature, latlng) {
-            let color = getColor(feature.properties.WG, COLORS.wind);
+            //let color = getColor(feature.properties.WG, COLORS.wind);
             // round direction values to degrees because wind direction measurements are quite uncertain
             let dir = feature.properties.WR !== undefined ? feature.properties.WR.toFixed(0) : "-";
             //console.log(feature.properties.WR);
