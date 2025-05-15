@@ -68,15 +68,13 @@ footer nav {
 
 
 .aws-div-icon-wind span {
-    border: 1px solid silver;
     font-size: 3em;
     font-weight: bold;
-    padding: 0.4em;
     transform: translate(-30%, -50%); /* position vom div verschieben */
     display: inline-block;
     text-shadow:
-        -1px -1px 0 white,
-        -1px 1px 0 white,
-        1px -1px 0 white,
-        1px 1px 0 white;
+        -2px -2px 0 black,
+        -2px 2px 0 black,
+        2px -2px 0 black,
+        2px 2px 0 black;
 }
