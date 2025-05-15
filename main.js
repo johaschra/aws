@@ -205,7 +205,7 @@ function showDir(jsondata) {
                 icon: L.divIcon({
                     html: `<span><i style = "transform: rotate(${feature.properties.WR}deg) ; color:${color}" class = "fa-solid fa-circle-arrow-down"></i>
                             </span>`,
-                    className: "aws-div-icon-wind",
+                    className: "aws-div-icon-winddir",
 
                 }),
             });

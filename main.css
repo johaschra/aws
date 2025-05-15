@@ -67,7 +67,7 @@ footer nav {
 }
 
 
-.aws-div-icon-wind span {
+.aws-div-icon-winddir span {
     font-size: 3em;
     font-weight: bold;
     transform: translate(-30%, -50%); /* position vom div verschieben */
